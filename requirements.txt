@@ -1,0 +1,7 @@
+what we need for the project:
+- OOP Python
+- Algorithms
+- SQL (PostgreSQL)
+- Code Structure
+- Data Handeling
+- Some Documentation
