@@ -51,4 +51,4 @@ class Book(Media):
     ==METHODS==
     """
     def get_type(self):
-        return "Book"
+        return "BOOK"

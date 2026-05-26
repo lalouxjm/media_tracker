@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 class Media(ABC):
-    def __init__(self, id:int, title:str, release_year:int, description:str, rating: float, status_id: int):
+    def __init__(self, id:int, title:str, release_year:int, description:str, rating: float, status_id: int, genres=None):
 
         self._id = None
         self._title = None
@@ -16,6 +16,7 @@ class Media(ABC):
         self.description = description
         self.rating = rating
         self.status_id = status_id
+        self.genres = genres if genres else []
 
     """
     ==GET-SET==

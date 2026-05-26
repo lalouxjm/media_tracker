@@ -16,6 +16,7 @@ erDiagram
         int id PK
         string username
         string email
+        string password
         date created_at
     }
 
@@ -73,6 +74,7 @@ erDiagram
         int score
         string comment
         date created_at
+        date updated_at
     }
 
     SOURCE_LINK {

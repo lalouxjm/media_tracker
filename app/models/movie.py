@@ -34,4 +34,4 @@ class Movie(Media):
     """
 
     def get_type(self):
-        return "Movie"
+        return "MOVIE"

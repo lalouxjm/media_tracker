@@ -1,7 +1,9 @@
 what we need for the project:
 - OOP Python
 - Algorithms
-- SQL (PostgreSQL)
+- SQL (PostgreSQL) **postgres - postgrespwd** **pgAgent** postgresagent - postgresagentpwd**
+    port:5432 - listening port:6432
 - Code Structure
 - Data Handeling
 - Some Documentation
+

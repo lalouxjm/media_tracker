@@ -44,4 +44,4 @@ class TVShow(Media):
     ==METHODS==
     """
     def get_type(self):
-        return "TV Show"
+        return "TV_SHOW"
