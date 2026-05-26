@@ -10,13 +10,43 @@ class MediaFactory:
         media_type = data['media_type']
 
         if media_type == "BOOK":
-            return Book(...)
+            return Book(
+                id=data["id"],
+                title=data["title"],
+                release_year=data["release_year"],
+                description=data["description"],
+                rating=data["rating"],
+                status_id=data["status_id"],
+                author=data["author"],
+                publisher=data["publisher"],
+                page_count=data["page_count"],
+                isbn=data["isbn"]
+            )
 
         elif media_type == "MOVIE":
-            return Movie(...)
+            return Movie(
+                media_id=data["media_id"],
+                title=data["title"],
+                release_year=data["release_year"],
+                description=data["description"],
+                rating=data["rating"],
+                status_id=data["status_id"],
+                director=data["director"],
+                duration_minutes=data["duration_minutes"]
+            )
 
         elif media_type == "TV_SHOW":
-            return TVShow(...)
+            return TVShow(
+                media_id=data["media_id"],
+                title=data["title"],
+                release_year=data["release_year"],
+                description=data["description"],
+                rating=data["rating"],
+                status_id=data["status_id"],
+                creator=data["creator"],
+                season_count=data["season_count"],
+                episode_count=data["episode_count"]
+            )
 
         else:
-            raise Exception("Media type not supported")
+            raise ValueError(f"Unknown media type: {media_type}")
