@@ -9,7 +9,7 @@ class MediaFactory:
     def create_media(data):
         media_type = data['media_type']
 
-        if media_type == "BOOK":
+        if data["media_type"] == "BOOK":
             return Book(
                 id=data["id"],
                 title=data["title"],
@@ -17,10 +17,16 @@ class MediaFactory:
                 description=data["description"],
                 rating=data["rating"],
                 status_id=data["status_id"],
+
                 author=data["author"],
                 publisher=data["publisher"],
                 page_count=data["page_count"],
-                isbn=data["isbn"]
+                isbn=data["isbn"],
+
+                status_name=data.get("status_name"),
+                genres=data["genres"].split(", ") if data.get("genres") else [],
+                source_links=data["source_links"].split(", ") if data.get(
+                    "source_links") else []
             )
 
         elif media_type == "MOVIE":

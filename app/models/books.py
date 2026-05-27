@@ -2,8 +2,8 @@ from app.models.media import Media
 
 class Book(Media):
     def __init__(self, id, title, release_year, description, rating, status_id,
-                 author:str , publisher:str , page_count:int, isbn:str):
-        super().__init__(id, title, release_year, description, rating, status_id)
+                 author:str , publisher:str , page_count:int, isbn:str, status_name=None, genres=None, source_links=None):
+        super().__init__(id, title, release_year, description, rating, status_id, status_name, genres, source_links)
 
         self._author = None
         self._publisher = None
