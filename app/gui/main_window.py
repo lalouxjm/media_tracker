@@ -51,9 +51,9 @@ class MainWindow(ctk.CTk):
             label.grid(row=1, column=index, padx=10, pady=10)
 
     def create_columns(self):
-        self.books_frame = ctk.CTkScrollableFrame(self)
-        self.movies_frame = ctk.CTkScrollableFrame(self)
-        self.tv_shows_frame = ctk.CTkScrollableFrame(self)
+        self.books_frame = ctk.CTkScrollableFrame(self, fg_color="#1f1f1f")
+        self.movies_frame = ctk.CTkScrollableFrame(self, fg_color="#1f1f1f")
+        self.tv_shows_frame = ctk.CTkScrollableFrame(self, fg_color="#1f1f1f")
 
         self.books_frame.grid(row=2, column=0, padx=10, pady=10, sticky="nsew")
         self.movies_frame.grid(row=2, column=1, padx=10, pady=10, sticky="nsew")
@@ -74,7 +74,15 @@ class MainWindow(ctk.CTk):
             self.add_media_card(self.tv_shows_frame, tv_show, tv_show.creator)
 
     def add_media_card(self, parent, media, creator_label):
-        card = ctk.CTkFrame(parent)
+
+        card = ctk.CTkFrame(
+            parent,
+            corner_radius=12,
+            border_width=1,
+            border_color=("#3a3a3a", "#555555"),
+            fg_color=("#e8e8e8","#2b2b2b"),
+        )
+
         card.pack(fill="x", padx=8, pady=6)
 
         title_label = ctk.CTkLabel(
@@ -84,7 +92,7 @@ class MainWindow(ctk.CTk):
             anchor="w",
             justify="left"
         )
-        title_label.pack(fill="x", padx=10, pady=(10, 4), anchor="w")
+        title_label.pack(fill="x", padx=12, pady=(12, 4), anchor="w")
 
         rating_frame = ctk.CTkFrame(card, fg_color="transparent")
         rating_frame.pack(fill="x", padx=10, pady=2)
