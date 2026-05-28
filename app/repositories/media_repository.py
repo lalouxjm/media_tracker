@@ -122,9 +122,104 @@ GROUP BY m.id, s.id, b.media_id
     "MOVIES"
     "============================================================================="
 
+    def get_all_movies(self):
+
+        connection = DatabaseConnection.get_connection()
+
+        try:
+            cursor = connection.cursor(cursor_factory=RealDictCursor)
+
+            cursor.execute("""
+SELECT m.id,
+m.title,
+m.release_year,
+m.description,
+m.rating,
+s.id AS status_id,
+s.name AS status_name,
+mo.director,
+mo.duration_minutes,
+STRING_AGG(DISTINCT g.name, ', ') AS genres,
+STRING_AGG(DISTINCT sl.platform_name || ' (' || sl.availability_type || ')', ', ') AS source_links,
+'MOVIE' AS media_type
+FROM media AS m
+JOIN movie AS mo
+ON m.id = mo.media_id
+JOIN status AS s
+ON m.status_id = s.id
+LEFT JOIN media_genre AS mg
+ON m.id = mg.media_id
+LEFT JOIN genre AS g
+ON mg.genre_id = g.id
+LEFT JOIN source_link AS sl
+ON m.id = sl.media_id
+GROUP BY m.id, s.id, mo.media_id
+ORDER BY m.title;
+""")
+
+            rows = cursor.fetchall()
+            movies = []
+
+            for row in rows:
+                movies.append(MediaFactory.create_media(row))
+
+            return movies
+
+        finally:
+            cursor.close()
+            connection.close()
+
     "============================================================================="
     "TV SHOWS"
     "============================================================================="
+
+    def get_all_tv_shows(self):
+
+        connection = DatabaseConnection.get_connection()
+
+        try:
+            cursor = connection.cursor(cursor_factory=RealDictCursor)
+
+            cursor.execute("""
+SELECT m.id,
+m.title,
+m.release_year,
+m.description,
+m.rating,
+s.id AS status_id,
+s.name AS status_name,
+tv.creator,
+tv.season_count,
+tv.episode_count,
+STRING_AGG(DISTINCT g.name, ', ') AS genres,
+STRING_AGG(DISTINCT sl.platform_name || ' (' || sl.availability_type || ')', ', ') AS source_links,
+'TV_SHOW' AS media_type
+FROM media AS m
+JOIN tv_show AS tv
+ON m.id = tv.media_id
+JOIN status AS s
+ON m.status_id = s.id
+LEFT JOIN media_genre AS mg
+ON m.id = mg.media_id
+LEFT JOIN genre AS g
+ON mg.genre_id = g.id
+LEFT JOIN source_link AS sl
+ON m.id = sl.media_id
+GROUP BY m.id, s.id, tv.media_id
+ORDER BY m.title;
+""")
+
+            rows = cursor.fetchall()
+            tvshows = []
+
+            for row in rows:
+                tvshows.append(MediaFactory.create_media(row))
+
+            return tvshows
+
+        finally:
+            cursor.close()
+            connection.close()
 
     def test_connection(self):
 

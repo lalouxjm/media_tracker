@@ -3,8 +3,8 @@ from app.models.media import Media
 
 class TVShow(Media):
     def __init__(self, id, title, release_year, description, rating, status_id,
-                 creator:str, season_count:int, episode_count:int):
-        super().__init__(id, title, release_year, description, rating, status_id)
+                 creator:str, season_count:int, episode_count:int, status_name=None, genres=None, source_links=None):
+        super().__init__(id, title, release_year, description, rating, status_id, status_name, genres, source_links)
 
         self._creator = None
         self._season_count = None

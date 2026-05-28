@@ -11,8 +11,6 @@ class User:
         self.password = password
         self.email = email
 
-
-
     """
     ==GET-SET==
     """
@@ -26,7 +24,8 @@ class User:
 
     @property
     def password(self):
-        return None
+        #raise AttributeError("Password cannot be read")
+        return self._password
     @password.setter
     def password(self, password) -> None:
         self._password = password

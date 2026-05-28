@@ -123,6 +123,9 @@ CREATE TABLE review (
         FOREIGN KEY (user_id)
         REFERENCES app_user(id)
         ON DELETE CASCADE
+                    
+    CONSTRAINT unique_user_media_review
+        UNIQUE (media_id, user_id)
 );
 
 
@@ -605,3 +608,72 @@ VALUES
 (58, 'Apple TV+', 'https://tv.apple.com/severance', 'STREAM'),
 (59, 'Netflix', 'https://netflix.com/the-witcher', 'STREAM'),
 (60, 'Netflix', 'https://netflix.com/avatar-last-airbender', 'STREAM');
+
+INSERT INTO app_user (
+    username,
+    password,
+    email
+)
+VALUES
+('jamie', '1234', 'jamie@example.com'),
+('alex', 'hashed_password_2', 'alex@example.com'),
+('sarah', 'hashed_password_3', 'sarah@example.com'),
+('morgan', 'hashed_password_4', 'morgan@example.com'),
+('chris', 'hashed_password_5', 'chris@example.com'),
+('emma', 'hashed_password_6', 'emma@example.com'),
+('lucas', 'hashed_password_7', 'lucas@example.com'),
+('olivia', 'hashed_password_8', 'olivia@example.com'),
+('noah', 'hashed_password_9', 'noah@example.com'),
+('ava', 'hashed_password_10', 'ava@example.com'),
+('liam', 'hashed_password_11', 'liam@example.com'),
+('mia', 'hashed_password_12', 'mia@example.com'),
+('ethan', 'hashed_password_13', 'ethan@example.com'),
+('charlotte', 'hashed_password_14', 'charlotte@example.com'),
+('james', 'hashed_password_15', 'james@example.com');
+
+INSERT INTO review (
+    media_id,
+    user_id,
+    score,
+    comment
+)
+VALUES
+
+-- BOOK REVIEWS
+
+(1, 1, 10, 'A timeless fantasy classic.'),
+(2, 2, 9, 'Still incredibly relevant today.'),
+(3, 3, 10, 'Amazing worldbuilding and politics.'),
+(4, 4, 8, 'Beautifully written romance.'),
+(5, 5, 9, 'Loved the storytelling style.'),
+(8, 6, 10, 'One of the greatest fantasy works ever.'),
+(9, 7, 8, 'Fun and scientifically engaging.'),
+(11, 8, 9, 'Magical and nostalgic.'),
+(14, 9, 8, 'Cyberpunk atmosphere done perfectly.'),
+(19, 10, 8, 'Dark but emotionally powerful.'),
+
+-- MOVIE REVIEWS
+
+(21, 1, 10, 'Mind blowing concept and execution.'),
+(22, 2, 10, 'Best superhero movie ever made.'),
+(23, 3, 9, 'Beautiful and emotional sci-fi.'),
+(24, 4, 10, 'Changed science fiction forever.'),
+(25, 5, 8, 'Visually stunning cyberpunk movie.'),
+(27, 6, 9, 'Excellent social commentary.'),
+(28, 7, 9, 'Stressful and inspiring at the same time.'),
+(29, 8, 10, 'Absolutely deserved the praise.'),
+(31, 9, 9, 'Iconic dialogue and storytelling.'),
+(38, 10, 10, 'Completely chaotic in the best way.'),
+
+-- TV SHOW REVIEWS
+
+(41, 1, 10, 'Perfect character development.'),
+(42, 2, 9, 'Amazing until the last seasons.'),
+(43, 3, 8, 'Great nostalgic atmosphere.'),
+(44, 4, 9, 'Still one of the funniest sitcoms.'),
+(45, 5, 9, 'Excellent modern Sherlock adaptation.'),
+(46, 6, 10, 'Incredibly clever writing.'),
+(48, 7, 10, 'Best animated series in years.'),
+(51, 8, 10, 'Intense and unforgettable.'),
+(54, 9, 9, 'Very unique psychological thriller.'),
+(58, 10, 9, 'Original and disturbing concept.');

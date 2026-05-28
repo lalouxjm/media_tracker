@@ -1,5 +1,7 @@
 from app.repositories.media_repository import MediaRepository
 from app.database.connection import DatabaseConnection
+from app.gui.main_window import MainWindow
+
 
 #Turn the string blue
 def blue(value: str, value2="", value3="", value4="", value5="") -> str:
@@ -44,3 +46,8 @@ if book:
     print(f"{book.title} by {book.author} - {', '.join(book.genres)}")
 else:
     print("Book not found")
+
+sep()
+
+app = MainWindow()
+app.mainloop()

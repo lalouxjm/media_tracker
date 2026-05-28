@@ -6,4 +6,4 @@ what we need for the project:
 - Code Structure
 - Data Handeling
 - Some Documentation
-
+- Visual Interface with Tkinter - customtkinter

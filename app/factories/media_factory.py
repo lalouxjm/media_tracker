@@ -29,29 +29,65 @@ class MediaFactory:
                     "source_links") else []
             )
 
+
         elif media_type == "MOVIE":
+
             return Movie(
-                media_id=data["media_id"],
+
+                id=data["id"],
+
                 title=data["title"],
+
                 release_year=data["release_year"],
+
                 description=data["description"],
+
                 rating=data["rating"],
+
                 status_id=data["status_id"],
+
                 director=data["director"],
-                duration_minutes=data["duration_minutes"]
+
+                duration_minutes=data["duration_minutes"],
+
+                status_name=data.get("status_name"),
+
+                genres=data["genres"].split(", ") if data.get("genres") else [],
+
+                source_links=data["source_links"].split(", ") if data.get(
+                    "source_links") else []
+
             )
 
+
         elif media_type == "TV_SHOW":
+
             return TVShow(
-                media_id=data["media_id"],
+
+                id=data["id"],
+
                 title=data["title"],
+
                 release_year=data["release_year"],
+
                 description=data["description"],
+
                 rating=data["rating"],
+
                 status_id=data["status_id"],
+
                 creator=data["creator"],
+
                 season_count=data["season_count"],
-                episode_count=data["episode_count"]
+
+                episode_count=data["episode_count"],
+
+                status_name=data.get("status_name"),
+
+                genres=data["genres"].split(", ") if data.get("genres") else [],
+
+                source_links=data["source_links"].split(", ") if data.get(
+                    "source_links") else []
             )
 
         else:
