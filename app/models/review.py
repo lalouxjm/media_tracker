@@ -2,14 +2,15 @@ from datetime import datetime
 
 
 class Review:
-    def __init__(self, id, media_id, user_id, score, comment):
+    def __init__(self, id, media_id, user_id, username, score, comment, created_at, updated_at):
         self._id = id
         self._media_id = media_id
         self._user_id = user_id
+        self._username = username
         self._score = score
         self._comment = comment
-        self._created_at = datetime.now()
-        self._updated_at = None
+        self._created_at = created_at
+        self._updated_at = updated_at
 
     """
     ==GET-SET==
@@ -34,6 +35,13 @@ class Review:
     @user_id.setter
     def user_id(self, user_id):
         self._user_id = user_id
+
+    @property
+    def username(self):
+        return self._username
+    @username.setter
+    def username(self, username):
+        self._username = username
 
     @property
     def score(self):

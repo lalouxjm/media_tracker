@@ -1,6 +1,7 @@
 from PIL import Image
 import customtkinter as ctk
 from app.repositories.media_repository import MediaRepository
+from app.repositories.review_repository import ReviewRepository
 
 
 class MainWindow(ctk.CTk):
@@ -12,6 +13,7 @@ class MainWindow(ctk.CTk):
         self.geometry("1300x700")
 
         self.media_repository = MediaRepository()
+        self.review_repository = ReviewRepository()
 
         #Stars
         self.full_star = ctk.CTkImage(Image.open("assets/full_star.png"), size=(18, 18))
@@ -85,6 +87,11 @@ class MainWindow(ctk.CTk):
 
         card.pack(fill="x", padx=8, pady=6)
 
+        card.bind(
+            "<Button-1>",
+            lambda event: self.show_review_page(media)
+        )
+
         title_label = ctk.CTkLabel(
             card,
             text=f"{media.title} \nby {creator_label}",
@@ -93,6 +100,11 @@ class MainWindow(ctk.CTk):
             justify="left"
         )
         title_label.pack(fill="x", padx=12, pady=(12, 4), anchor="w")
+
+        title_label.bind(
+            "<Button-1>",
+            lambda event: self.show_review_page(media)
+        )
 
         rating_frame = ctk.CTkFrame(card, fg_color="transparent")
         rating_frame.pack(fill="x", padx=10, pady=2)
@@ -105,6 +117,11 @@ class MainWindow(ctk.CTk):
         )
         rating_text.pack(side="left", padx=5)
 
+        rating_text.bind(
+            "<Button-1>",
+            lambda event: self.show_review_page(media)
+        )
+
         genre_text = ", ".join(media.genres) if media.genres else "No genre"
 
         genre_label = ctk.CTkLabel(
@@ -113,6 +130,11 @@ class MainWindow(ctk.CTk):
             anchor="w"
         )
         genre_label.pack(fill="x", padx=10, pady=2)
+
+        genre_label.bind(
+            "<Button-1>",
+            lambda event: self.show_review_page(media)
+        )
 
         source_text = ", ".join(
             media.source_link) if media.source_link else "No source"
@@ -125,6 +147,11 @@ class MainWindow(ctk.CTk):
             justify="left"
         )
         source_label.pack(fill="x", padx=10, pady=(2, 10))
+
+        source_label.bind(
+            "<Button-1>",
+            lambda event: self.show_review_page(media)
+        )
 
     def display_stars(self, parent, rating):
         full_stars = rating // 2
@@ -142,7 +169,7 @@ class MainWindow(ctk.CTk):
         for _ in range(empty_stars):
             label = ctk.CTkLabel(parent, image=self.empty_star, text="")
             label.pack(side="left")
-"""
+    """
     def display_stars(self, parent, rating):
 
         full_stars = rating // 2
@@ -164,4 +191,38 @@ class MainWindow(ctk.CTk):
         )
 
         label.pack(side="left")
-"""
+    """
+    def clear_window(self):
+        for widget in self.winfo_children():
+            widget.destroy()
+
+    def show_main_page(self):
+        self.clear_window()
+        self.grid_columnconfigure((0, 1, 2), weight=1)
+        self.grid_rowconfigure(2, weight=1)
+
+        self.create_main_title()
+        self.create_titles()
+        self.create_columns()
+        self.load_media()
+
+    def show_review_page(self, media):
+        self.clear_window()
+
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(2, weight=1)
+
+        back_button = ctk.CTkButton(
+            self,
+            text="← Back",
+            command=self.show_main_page
+        )
+        back_button.grid(row=0, column=0, sticky="w", padx=20, pady=15)
+
+        title_label = ctk.CTkLabel(
+            self,
+            text=f"Reviews for {media.title}",
+            font=("Arial", 28, "bold"),
+        )
+        title_label.grid(row=0, column=1, pady=10)
+
