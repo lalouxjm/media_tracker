@@ -21,7 +21,6 @@ sep()
 
 connection = DatabaseConnection.get_connection()
 print("Connected successfully!")
-connection.close()
 
 sep()
 

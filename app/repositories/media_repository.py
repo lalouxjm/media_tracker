@@ -67,7 +67,6 @@ ORDER BY m.title;
 
         finally:
             cursor.close()
-            connection.close()
 
     def get_book_by_id(self, media_id):
 
@@ -111,11 +110,10 @@ GROUP BY m.id, s.id, b.media_id
 
         finally:
             cursor.close()
-            connection.close()
 
     def update_book(self, media):
         pass
-    def delete_delete(self, media_id):
+    def delete_book(self, media_id):
         pass
 
     "============================================================================="
@@ -167,7 +165,6 @@ ORDER BY m.title;
 
         finally:
             cursor.close()
-            connection.close()
 
     "============================================================================="
     "TV SHOWS"
@@ -219,7 +216,6 @@ ORDER BY m.title;
 
         finally:
             cursor.close()
-            connection.close()
 
     def test_connection(self):
 
@@ -237,4 +233,3 @@ ORDER BY m.title;
             print(row)
 
         cursor.close()
-        connection.close()
