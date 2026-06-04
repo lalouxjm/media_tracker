@@ -1,3 +1,5 @@
+from textwrap import fill
+
 from PIL import Image
 import customtkinter as ctk
 from app.repositories.media_repository import MediaRepository
@@ -23,10 +25,7 @@ class MainWindow(ctk.CTk):
         self.grid_columnconfigure((0, 1, 2), weight=1)
         self.grid_rowconfigure(2, weight=1)
 
-        self.create_main_title()
-        self.create_titles()
-        self.create_columns()
-        self.load_media()
+        self.show_main_page()
 
     def create_main_title(self):
         title_label = ctk.CTkLabel(
@@ -169,8 +168,8 @@ class MainWindow(ctk.CTk):
         for _ in range(empty_stars):
             label = ctk.CTkLabel(parent, image=self.empty_star, text="")
             label.pack(side="left")
-    """
-    def display_stars(self, parent, rating):
+
+    def display_stars_small(self, parent, rating):
 
         full_stars = rating // 2
         half_star = rating % 2
@@ -191,7 +190,7 @@ class MainWindow(ctk.CTk):
         )
 
         label.pack(side="left")
-    """
+
     def clear_window(self):
         for widget in self.winfo_children():
             widget.destroy()
@@ -217,12 +216,86 @@ class MainWindow(ctk.CTk):
             text="← Back",
             command=self.show_main_page
         )
-        back_button.grid(row=0, column=0, sticky="w", padx=20, pady=15)
+        back_button.grid(row=0, column=0, sticky="w", padx=20, pady=(15,5))
 
         title_label = ctk.CTkLabel(
             self,
-            text=f"Reviews for {media.title}",
+            text=f"Reviews for {media.title}\nby {media.author}",
             font=("Arial", 28, "bold"),
         )
-        title_label.grid(row=0, column=1, pady=10)
+        title_label.grid(row=1, column=0, pady=(5,10))
 
+        reviews_frame = ctk.CTkScrollableFrame(
+            self,
+            width=1000,
+            height=520,
+            corner_radius=12,
+        )
+        reviews_frame.grid(
+            row=2,
+            column=0,
+            padx= 40,
+            pady=(10,30),
+            sticky="nsew"
+        )
+
+        reviews = self.review_repository.get_reviews_by_media_id(media.id)
+
+        if not reviews:
+            empty_label = ctk.CTkLabel(
+                reviews_frame,
+                text="No reviews yet.",
+                font=("Arial", 18)
+            )
+            empty_label.pack(pady=30)
+            return
+        for review in reviews:
+            self.add_review_card(reviews_frame, review)
+
+    def add_review_card(self, parent, review):
+        card = ctk.CTkFrame(
+            parent,
+            corner_radius=12,
+            border_width=1,
+            border_color=("#c0c0c0","#444444"),
+            fg_color=("#e8e8e8", "#2b2b2b")
+        )
+        card.pack(fill="x", padx=14, pady=10)
+
+        reviewer_label = ctk.CTkLabel(
+            card,
+            text=review.username,
+            font=("Arial", 20, "bold"),
+            anchor="w",
+            justify="left"
+        )
+        reviewer_label.pack(fill="x", padx=16, pady=(12,2), anchor="w")
+
+        created_date = review.created_at.strftime("%d/%m/%y")
+
+        date_label = ctk.CTkLabel(
+            card,
+            text=f"Created: {created_date}",
+            font=("Arial", 12),
+            anchor="w",
+            justify="left"
+        )
+        date_label.pack(fill="x", padx=16, pady=(0,6), anchor="w")
+
+        rating_frame = ctk.CTkFrame(
+            card,
+            fg_color="transparent"
+        )
+        rating_frame.pack(fill="x", padx=16, pady=(0,8), anchor="w")
+
+        self.display_stars_small(rating_frame, review.score)
+
+        comment_label = ctk.CTkLabel(
+            card,
+            text=review.comment,
+            font=("Arial", 15),
+            anchor="w",
+            justify="left",
+            wraplength=950
+        )
+        comment_label.pack(fill="x", padx=16, pady=(0,14), anchor="w")
