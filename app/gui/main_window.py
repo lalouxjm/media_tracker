@@ -1,15 +1,18 @@
-from textwrap import fill
-
 from PIL import Image
 import customtkinter as ctk
+
 from app.repositories.media_repository import MediaRepository
 from app.repositories.review_repository import ReviewRepository
+from app.gui.review_page import ReviewPage
 
 
-class MainWindow(ctk.CTk):
+class MainWindow(ctk.CTkToplevel):
 
-    def __init__(self):
+    def __init__(self, username, login_window):
         super().__init__()
+
+        self.logged_username = username
+        self.login_window = login_window
 
         self.title("Media Tracker")
         self.geometry("1300x700")
@@ -26,6 +29,7 @@ class MainWindow(ctk.CTk):
         self.grid_rowconfigure(2, weight=1)
 
         self.show_main_page()
+        self.create_disconnect_button()
 
     def create_main_title(self):
         title_label = ctk.CTkLabel(
@@ -108,7 +112,12 @@ class MainWindow(ctk.CTk):
         rating_frame = ctk.CTkFrame(card, fg_color="transparent")
         rating_frame.pack(fill="x", padx=10, pady=2)
 
-        self.display_stars(rating_frame, media.rating)
+        rating_frame.bind(
+            "<Button-1>",
+            lambda event: self.show_review_page(media)
+        )
+
+        self.display_stars(rating_frame, media.rating, media)
 
         rating_text = ctk.CTkLabel(
             rating_frame,
@@ -152,7 +161,42 @@ class MainWindow(ctk.CTk):
             lambda event: self.show_review_page(media)
         )
 
-    def display_stars(self, parent, rating):
+    def create_disconnect_button(self):
+        self.disconnect_container = ctk.CTkFrame(
+            self,
+            fg_color="transparent"
+        )
+        self.disconnect_container.place(relx=0.985, rely=0.025, anchor="ne")
+
+        label = ctk.CTkLabel(
+            self.disconnect_container,
+            text="Disconnect",
+            font=("Arial", 12)
+        )
+        label.pack(side="left", padx=(0,6))
+
+        button = ctk.CTkButton(
+            self.disconnect_container,
+            text="⏻",
+            width=38,
+            height=38,
+            corner_radius=8,
+            fg_color="#b22222",
+            hover_color="#8b0000",
+            text_color="white",
+            font=("Arial", 22, "bold"),
+            command=self.disconnect
+        )
+        button.pack(side="left")
+
+    def disconnect(self):
+        self.destroy()
+        self.login_window.deiconify()
+
+        self.login_window.username_entry.delete(0, "end")
+        self.login_window.password_entry.delete(0, "end")
+
+    def display_stars(self, parent, rating, media):
         full_stars = rating // 2
         has_half_star = rating % 2 == 1
         empty_stars = 5 - full_stars - (1 if has_half_star else 0)
@@ -169,27 +213,6 @@ class MainWindow(ctk.CTk):
             label = ctk.CTkLabel(parent, image=self.empty_star, text="")
             label.pack(side="left")
 
-    def display_stars_small(self, parent, rating):
-
-        full_stars = rating // 2
-        half_star = rating % 2
-
-        stars = "★" * full_stars
-
-        if half_star:
-            stars += "½"
-
-        empty_stars = 5 - full_stars - half_star
-
-        stars += "☆" * empty_stars
-
-        label = ctk.CTkLabel(
-            parent,
-            text=f"{stars}",  #({rating}/10)",
-            font=("Arial", 14)
-        )
-
-        label.pack(side="left")
 
     def clear_window(self):
         for widget in self.winfo_children():
@@ -205,97 +228,16 @@ class MainWindow(ctk.CTk):
         self.create_columns()
         self.load_media()
 
+        self.create_disconnect_button()
+
     def show_review_page(self, media):
         self.clear_window()
 
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure(2, weight=1)
-
-        back_button = ctk.CTkButton(
-            self,
-            text="← Back",
-            command=self.show_main_page
+        ReviewPage(
+            parent=self,
+            media=media,
+            logged_username=self.logged_username,
+            review_repository=self.review_repository,
+            on_back=self.show_main_page,
+            on_disconnect=self.disconnect
         )
-        back_button.grid(row=0, column=0, sticky="w", padx=20, pady=(15,5))
-
-        title_label = ctk.CTkLabel(
-            self,
-            text=f"Reviews for {media.title}\nby {media.author}",
-            font=("Arial", 28, "bold"),
-        )
-        title_label.grid(row=1, column=0, pady=(5,10))
-
-        reviews_frame = ctk.CTkScrollableFrame(
-            self,
-            width=1000,
-            height=520,
-            corner_radius=12,
-        )
-        reviews_frame.grid(
-            row=2,
-            column=0,
-            padx= 40,
-            pady=(10,30),
-            sticky="nsew"
-        )
-
-        reviews = self.review_repository.get_reviews_by_media_id(media.id)
-
-        if not reviews:
-            empty_label = ctk.CTkLabel(
-                reviews_frame,
-                text="No reviews yet.",
-                font=("Arial", 18)
-            )
-            empty_label.pack(pady=30)
-            return
-        for review in reviews:
-            self.add_review_card(reviews_frame, review)
-
-    def add_review_card(self, parent, review):
-        card = ctk.CTkFrame(
-            parent,
-            corner_radius=12,
-            border_width=1,
-            border_color=("#c0c0c0","#444444"),
-            fg_color=("#e8e8e8", "#2b2b2b")
-        )
-        card.pack(fill="x", padx=14, pady=10)
-
-        reviewer_label = ctk.CTkLabel(
-            card,
-            text=review.username,
-            font=("Arial", 20, "bold"),
-            anchor="w",
-            justify="left"
-        )
-        reviewer_label.pack(fill="x", padx=16, pady=(12,2), anchor="w")
-
-        created_date = review.created_at.strftime("%d/%m/%y")
-
-        date_label = ctk.CTkLabel(
-            card,
-            text=f"Created: {created_date}",
-            font=("Arial", 12),
-            anchor="w",
-            justify="left"
-        )
-        date_label.pack(fill="x", padx=16, pady=(0,6), anchor="w")
-
-        rating_frame = ctk.CTkFrame(
-            card,
-            fg_color="transparent"
-        )
-        rating_frame.pack(fill="x", padx=16, pady=(0,8), anchor="w")
-
-        self.display_stars_small(rating_frame, review.score)
-
-        comment_label = ctk.CTkLabel(
-            card,
-            text=review.comment,
-            font=("Arial", 15),
-            anchor="w",
-            justify="left",
-            wraplength=950
-        )
-        comment_label.pack(fill="x", padx=16, pady=(0,14), anchor="w")

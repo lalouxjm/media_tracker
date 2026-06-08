@@ -1,3 +1,8 @@
+import customtkinter as ctk
+
+from app.gui.login_window import LoginWindow
+from app.database.connection import DatabaseConnection
+
 from app.repositories.media_repository import MediaRepository
 from app.database.connection import DatabaseConnection
 from app.gui.main_window import MainWindow
@@ -48,5 +53,8 @@ else:
 
 sep()
 
-app = MainWindow()
+ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("blue")
+
+app = LoginWindow()
 app.mainloop()

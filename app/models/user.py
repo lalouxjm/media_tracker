@@ -2,6 +2,7 @@ from datetime import datetime
 
 class User:
     def __init__(self, username: str, password: str, email:str) -> None:
+        self._id = None
         self._username = None
         self._password = None
         self._email = None
@@ -14,6 +15,9 @@ class User:
     """
     ==GET-SET==
     """
+    @property
+    def id(self):
+        return self._id
 
     @property
     def username(self):

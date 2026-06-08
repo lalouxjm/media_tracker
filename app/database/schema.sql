@@ -122,7 +122,7 @@ CREATE TABLE review (
     CONSTRAINT fk_review_user
         FOREIGN KEY (user_id)
         REFERENCES app_user(id)
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
                     
     CONSTRAINT unique_user_media_review
         UNIQUE (media_id, user_id)
@@ -615,7 +615,7 @@ INSERT INTO app_user (
     email
 )
 VALUES
-('jamie', '1234', 'jamie@example.com'),
+('jamie', '1234', 'jamie@technocite.com'),
 ('alex', 'hashed_password_2', 'alex@example.com'),
 ('sarah', 'hashed_password_3', 'sarah@example.com'),
 ('morgan', 'hashed_password_4', 'morgan@example.com'),
@@ -623,7 +623,7 @@ VALUES
 ('emma', 'hashed_password_6', 'emma@example.com'),
 ('lucas', 'hashed_password_7', 'lucas@example.com'),
 ('olivia', 'hashed_password_8', 'olivia@example.com'),
-('noah', 'hashed_password_9', 'noah@example.com'),
+('sandrine', '5678', 'sandrine@technocite.com'),
 ('ava', 'hashed_password_10', 'ava@example.com'),
 ('liam', 'hashed_password_11', 'liam@example.com'),
 ('mia', 'hashed_password_12', 'mia@example.com'),
@@ -631,49 +631,86 @@ VALUES
 ('charlotte', 'hashed_password_14', 'charlotte@example.com'),
 ('james', 'hashed_password_15', 'james@example.com');
 
-INSERT INTO review (
-    media_id,
-    user_id,
-    score,
-    comment
-)
+INSERT INTO review (media_id, user_id, score, comment)
 VALUES
-
--- BOOK REVIEWS
-
+-- BOOKS
 (1, 1, 10, 'A timeless fantasy classic.'),
-(2, 2, 9, 'Still incredibly relevant today.'),
-(3, 3, 10, 'Amazing worldbuilding and politics.'),
-(4, 4, 8, 'Beautifully written romance.'),
-(5, 5, 9, 'Loved the storytelling style.'),
-(8, 6, 10, 'One of the greatest fantasy works ever.'),
-(9, 7, 8, 'Fun and scientifically engaging.'),
-(11, 8, 9, 'Magical and nostalgic.'),
-(14, 9, 8, 'Cyberpunk atmosphere done perfectly.'),
-(19, 10, 8, 'Dark but emotionally powerful.'),
+(1, 4, 9, 'Simple, charming and full of adventure.'),
+(2, 2, 10, 'Still disturbing and relevant today.'),
+(3, 3, 9, 'Huge world building and great political tension.'),
+(3, 8, 10, 'Dense but absolutely worth reading.'),
+(4, 4, 8, 'Smart, elegant and emotionally satisfying.'),
+(5, 5, 9, 'Beautiful storytelling and strong atmosphere.'),
+(6, 6, 7, 'Interesting character study, but not always easy to enjoy.'),
+(7, 7, 8, 'A clever dystopia with strong ideas.'),
+(8, 8, 10, 'Epic fantasy at its best.'),
+(8, 2, 10, 'Long, but unforgettable.'),
+(9, 9, 8, 'Funny, tense and surprisingly educational.'),
+(10, 10, 9, 'Powerful and beautifully written.'),
+(11, 11, 9, 'Magical and very nostalgic.'),
+(11, 3, 8, 'A great start to the series.'),
+(12, 12, 9, 'Very fun magic system and strong pacing.'),
+(13, 13, 8, 'A classic sci-fi idea-driven story.'),
+(14, 14, 8, 'Cyberpunk atmosphere done really well.'),
+(15, 15, 10, 'Massive but incredibly rewarding.'),
+(15, 5, 9, 'The world building is excellent.'),
+(16, 1, 8, 'Fast-paced and easy to get invested in.'),
+(17, 2, 7, 'A fascinating gothic classic.'),
+(18, 3, 7, 'Old-fashioned but iconic.'),
+(19, 4, 8, 'Dark, bleak and emotionally strong.'),
+(20, 5, 9, 'Clever, funny and emotional sci-fi.'),
 
--- MOVIE REVIEWS
+-- MOVIES
+(21, 6, 9, 'A smart thriller that rewards rewatching.'),
+(21, 1, 10, 'One of the best sci-fi concepts in modern cinema.'),
+(22, 7, 10, 'The Joker performance is unforgettable.'),
+(22, 2, 10, 'Dark, intense and perfectly paced.'),
+(23, 8, 9, 'Emotional, ambitious and visually stunning.'),
+(23, 3, 9, 'The soundtrack makes it even better.'),
+(24, 9, 10, 'Still feels ahead of its time.'),
+(25, 10, 8, 'Beautiful visuals and strong atmosphere.'),
+(26, 11, 9, 'Pure action energy from start to finish.'),
+(27, 12, 9, 'Brilliant social commentary and tension.'),
+(28, 13, 9, 'Intense, stressful and incredibly well acted.'),
+(29, 14, 10, 'A beautiful story about hope.'),
+(30, 15, 9, 'Strange, stylish and memorable.'),
+(31, 1, 9, 'Iconic dialogue and structure.'),
+(31, 6, 8, 'Chaotic but very entertaining.'),
+(32, 2, 10, 'A perfect fantasy adventure.'),
+(33, 3, 10, 'A masterpiece of crime cinema.'),
+(34, 4, 8, 'Slow, tense and terrifying.'),
+(35, 5, 8, 'Thoughtful sci-fi with a strong emotional core.'),
+(36, 6, 8, 'Epic and very satisfying.'),
+(37, 7, 8, 'Sharp writing and strong performances.'),
+(38, 8, 10, 'Creative, chaotic and emotional.'),
+(38, 13, 9, 'Completely unique and very fun.'),
+(39, 9, 8, 'Stylish, violent and entertaining.'),
+(40, 10, 9, 'Fantastic animation and great energy.'),
 
-(21, 1, 10, 'Mind blowing concept and execution.'),
-(22, 2, 10, 'Best superhero movie ever made.'),
-(23, 3, 9, 'Beautiful and emotional sci-fi.'),
-(24, 4, 10, 'Changed science fiction forever.'),
-(25, 5, 8, 'Visually stunning cyberpunk movie.'),
-(27, 6, 9, 'Excellent social commentary.'),
-(28, 7, 9, 'Stressful and inspiring at the same time.'),
-(29, 8, 10, 'Absolutely deserved the praise.'),
-(31, 9, 9, 'Iconic dialogue and storytelling.'),
-(38, 10, 10, 'Completely chaotic in the best way.'),
-
--- TV SHOW REVIEWS
-
-(41, 1, 10, 'Perfect character development.'),
-(42, 2, 9, 'Amazing until the last seasons.'),
-(43, 3, 8, 'Great nostalgic atmosphere.'),
-(44, 4, 9, 'Still one of the funniest sitcoms.'),
-(45, 5, 9, 'Excellent modern Sherlock adaptation.'),
-(46, 6, 10, 'Incredibly clever writing.'),
-(48, 7, 10, 'Best animated series in years.'),
-(51, 8, 10, 'Intense and unforgettable.'),
-(54, 9, 9, 'Very unique psychological thriller.'),
-(58, 10, 9, 'Original and disturbing concept.');
+-- TV SHOWS
+(41, 11, 10, 'Perfect character evolution from beginning to end.'),
+(41, 4, 10, 'Probably one of the best dramas ever made.'),
+(42, 12, 9, 'The early seasons are incredible.'),
+(42, 5, 7, 'Amazing show, but the ending hurts it.'),
+(43, 13, 8, 'Fun, nostalgic and full of mystery.'),
+(44, 14, 9, 'Still one of the funniest sitcoms.'),
+(45, 15, 9, 'Very clever modern detective series.'),
+(46, 1, 10, 'Complex, smart and extremely well planned.'),
+(46, 8, 9, 'The time travel story is impressive.'),
+(47, 2, 9, 'Emotional and very well acted.'),
+(48, 3, 10, 'Visually incredible and emotionally strong.'),
+(48, 9, 10, 'One of the best animated series I have seen.'),
+(49, 4, 8, 'Strong fantasy drama with good tension.'),
+(50, 5, 8, 'Fun Star Wars adventure.'),
+(51, 6, 10, 'Brutal, intense and unforgettable.'),
+(51, 10, 9, 'The suspense is excellent.'),
+(52, 7, 9, 'A brilliant slow-burn character story.'),
+(53, 8, 8, 'Dark, violent and very entertaining.'),
+(54, 9, 9, 'Stylish and psychologically intense.'),
+(55, 10, 8, 'Great anthology with strong ideas.'),
+(56, 11, 8, 'Comfort sitcom with memorable characters.'),
+(57, 12, 8, 'Strong crime atmosphere and performances.'),
+(58, 13, 9, 'Original, creepy and very well executed.'),
+(58, 1, 10, 'One of the most interesting recent shows.'),
+(59, 14, 7, 'Fun fantasy, even if uneven sometimes.'),
+(60, 15, 10, 'One of the best animated adventures ever.');
