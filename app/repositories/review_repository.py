@@ -170,3 +170,27 @@ WHERE id = %s;
 
         finally:
             cursor.close()
+
+    def user_has_reviewed_media(self, media_id, username):
+        connection = DatabaseConnection.get_connection()
+
+        try:
+            cursor = connection.cursor(cursor_factory=RealDictCursor)
+
+            user = self.user_repository.get_user_by_username(username)
+
+            if user is None:
+                return False
+
+            cursor.execute(
+"""
+SELECT id
+FROM review
+WHERE media_id = %s
+AND user_id = %s;
+""", (media_id, user.id))
+
+            return cursor.fetchone() is not None
+
+        finally:
+            cursor.close()

@@ -196,7 +196,7 @@ class MainWindow(ctk.CTkToplevel):
         self.login_window.username_entry.delete(0, "end")
         self.login_window.password_entry.delete(0, "end")
 
-    def display_stars(self, parent, rating, media):
+    def display_stars(self, parent, rating, media=None):
         full_stars = rating // 2
         has_half_star = rating % 2 == 1
         empty_stars = 5 - full_stars - (1 if has_half_star else 0)
@@ -239,5 +239,6 @@ class MainWindow(ctk.CTkToplevel):
             logged_username=self.logged_username,
             review_repository=self.review_repository,
             on_back=self.show_main_page,
-            on_disconnect=self.disconnect
+            on_disconnect=self.disconnect,
+            display_stars=self.display_stars
         )

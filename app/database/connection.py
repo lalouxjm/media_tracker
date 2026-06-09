@@ -1,4 +1,7 @@
+import os
+
 import psycopg2
+from dotenv import load_dotenv
 
 """
 ==SINGLETON==
@@ -9,14 +12,15 @@ class DatabaseConnection:
 
     @classmethod
     def get_connection(cls):
+        load_dotenv()
 
         if cls._connection is None:
 
             cls._connection = psycopg2.connect(
-                host="localhost",
-                database="media_tracker",
-                user="postgres",
-                password="postgrespwd"
+                host=os.getenv("DB_HOST"),
+                database=os.getenv("DB_NAME"),
+                user=os.getenv("DB_USER"),
+                password=os.getenv("DB_PASSWORD")
             )
 
             print("Database connection created")

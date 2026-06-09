@@ -5,9 +5,6 @@ from app.factories.media_factory import MediaFactory
 
 class MediaRepository:
 
-    connection = DatabaseConnection.get_connection()
-    cursor = connection.cursor(cursor_factory=RealDictCursor)
-
     "============================================================================="
     "BOOKS"
     "============================================================================="
