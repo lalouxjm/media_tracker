@@ -4,6 +4,7 @@ import customtkinter as ctk
 from app.repositories.media_repository import MediaRepository
 from app.repositories.review_repository import ReviewRepository
 from app.gui.review_page import ReviewPage
+from app.gui.media_list_page import MediaListPage
 
 
 class MainWindow(ctk.CTkToplevel):
@@ -224,6 +225,7 @@ class MainWindow(ctk.CTkToplevel):
         self.grid_rowconfigure(2, weight=1)
 
         self.create_main_title()
+        self.create_media_list_button()
         self.create_titles()
         self.create_columns()
         self.load_media()
@@ -241,4 +243,21 @@ class MainWindow(ctk.CTkToplevel):
             on_back=self.show_main_page,
             on_disconnect=self.disconnect,
             display_stars=self.display_stars
+        )
+
+    def create_media_list_button(self):
+        list_button = ctk.CTkButton(
+            self,
+            text="All Medias",
+            command=self.show_media_list_page
+        )
+        list_button.place(relx=0.015, rely=0.025, anchor="nw")
+
+    def show_media_list_page(self):
+        self.clear_window()
+
+        MediaListPage(
+            parent=self,
+            media_repository=self.media_repository,
+            on_back=self.show_main_page
         )

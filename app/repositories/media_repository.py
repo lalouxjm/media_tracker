@@ -230,3 +230,12 @@ ORDER BY m.title;
             print(row)
 
         cursor.close()
+
+    def get_all_media(self):
+        media = []
+
+        media.extend(self.get_all_books())
+        media.extend(self.get_all_movies())
+        media.extend(self.get_all_tv_shows())
+
+        return media

@@ -3,9 +3,6 @@ import customtkinter as ctk
 from app.gui.login_window import LoginWindow
 from app.database.connection import DatabaseConnection
 
-from app.repositories.media_repository import MediaRepository
-from app.database.connection import DatabaseConnection
-from app.gui.main_window import MainWindow
 
 
 #Turn the string blue
@@ -20,36 +17,14 @@ def sep():
 
 
 
-"==================TEST=================="
 sep()
-
 
 connection = DatabaseConnection.get_connection()
 print("Connected successfully!")
 
 sep()
 
-repo = MediaRepository()
-repo.test_connection()
 
-sep()
-
-books = repo.get_all_books()
-for book in books:
-    print(f"{book.title} by {book.author}")
-    print(f"Status: {book.status_name}")
-    print(f"Genres: {', '.join(book.genres)}")
-    print(f"Sources: {', '.join(book.source_link)}")
-    print(blue("-") * 40)
-
-sep()
-
-book = repo.get_book_by_id(1)
-
-if book:
-    print(f"{book.title} by {book.author} - {', '.join(book.genres)}")
-else:
-    print("Book not found")
 
 sep()
 

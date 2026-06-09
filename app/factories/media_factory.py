@@ -8,6 +8,19 @@ class MediaFactory:
     @staticmethod
     def create_media(data):
         media_type = data['media_type']
+        genres = data["genres"] if data.get("genres") else []
+
+        if isinstance(genres, str):
+            genres = genres.split(", ")
+
+        genres = [
+            str(genre)
+            .replace("{", "")
+            .replace("}", "")
+            .replace("'", "")
+            .replace('"', "")
+            for genre in genres
+        ]
 
         if data["media_type"] == "BOOK":
             return Book(
@@ -24,7 +37,7 @@ class MediaFactory:
                 isbn=data["isbn"],
 
                 status_name=data.get("status_name"),
-                genres=data["genres"].split(", ") if data.get("genres") else [],
+                genres=genres,
                 source_links=data["source_links"].split(", ") if data.get(
                     "source_links") else []
             )
@@ -42,7 +55,7 @@ class MediaFactory:
                 director=data["director"],
                 duration_minutes=data["duration_minutes"],
                 status_name=data.get("status_name"),
-                genres=data["genres"].split(", ") if data.get("genres") else [],
+                genres=genres,
                 source_links=data["source_links"].split(", ") if data.get(
                     "source_links") else []
             )
@@ -61,7 +74,7 @@ class MediaFactory:
                 season_count=data["season_count"],
                 episode_count=data["episode_count"],
                 status_name=data.get("status_name"),
-                genres=data["genres"].split(", ") if data.get("genres") else [],
+                genres=genres,
                 source_links=data["source_links"].split(", ") if data.get(
                     "source_links") else []
             )
